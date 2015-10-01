@@ -1,0 +1,167 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.piglin.analyzer</groupId>
+  <artifactId>MahoutTest</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Mahout Test Webapp</name>
+  <url>http://maven.apache.org</url>
+
+    <properties>
+        <jdk.version>1.7</jdk.version>
+        <spring.version>4.1.1.RELEASE</spring.version>
+        <jstl.version>1.2</jstl.version>
+        <junit.version>4.11</junit.version>
+        <logback.version>1.0.13</logback.version>
+        <jcl-over-slf4j.version>1.7.5</jcl-over-slf4j.version>
+    </properties>
+
+  <profiles>
+      <profile>
+          <id>env-foo1</id>
+          <!-- Activated when -Denv=foo1 is given as parameter. -->
+          <activation>
+              <property>
+                  <name>env</name>
+                  <value>foo1</value>
+              </property>
+          </activation>
+          <properties>
+              <deploy.env>xxx</deploy.env>
+              <tomcat.manager>http://www.piglin.eu:8080/manager/text</tomcat.manager>
+              <tomcat.manager.username>root</tomcat.manager.username>
+              <tomcat.manager.password>danilo</tomcat.manager.password>
+          </properties>
+      </profile>
+      <profile>
+          <id>env-foo2</id>
+          <!-- Activated when -Denv=foo2 is given as parameter. -->
+          <activation>
+              <property>
+                  <name>env</name>
+                  <value>foo2</value>
+              </property>
+          </activation>
+          <properties>
+              <deploy.env>dev</deploy.env>
+              <tomcat.manager>http://localhost:8080/manager/text</tomcat.manager>
+              <tomcat.manager.username>root</tomcat.manager.username>
+              <tomcat.manager.password>danilo</tomcat.manager.password>
+          </properties>
+      </profile>
+  </profiles>
+
+  <dependencies>
+
+      <dependency>
+          <groupId>org.apache.mahout</groupId>
+          <artifactId>mahout-core</artifactId>
+          <version>0.9</version>
+      </dependency>
+
+      <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-uberjar</artifactId>
+      <version>1.4.12</version>
+    </dependency>
+      <!-- Spring Core -->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+          <version>${spring.version}</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>commons-logging</groupId>
+                  <artifactId>commons-logging</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+
+      <dependency>
+          <groupId>com.googlecode.json-simple</groupId>
+          <artifactId>json-simple</artifactId>
+          <version>1.1.1</version>
+      </dependency>
+
+
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20090211</version>
+      </dependency>
+
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+          <version>2.5</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
+          <version>${jcl-over-slf4j.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+          <version>${logback.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-web</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-webmvc</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+
+      <!-- jstl -->
+      <dependency>
+          <groupId>jstl</groupId>
+          <artifactId>jstl</artifactId>
+          <version>${jstl.version}</version>
+      </dependency>
+  </dependencies>
+  <build>
+    <finalName>University</finalName>
+    <plugins>
+
+        <!-- Set JDK Compiler Level -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+                <source>${jdk.version}</source>
+                <target>${jdk.version}</target>
+            </configuration>
+        </plugin>
+
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>tomcat-maven-plugin</artifactId>
+          <configuration>
+              <url>${tomcat.manager}</url>
+              <server>AWSServer</server>
+              <path>/analyzer</path>
+          </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+
+</project>
